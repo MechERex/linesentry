@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linesentry — Nothing Ships Wrong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#080909;
+  --bg:#0d0f0f;
+  --bg2:#111414;
+  --bg3:#161a1a;
+  --bg4:#1c2020;
+  --steel:#1e2626;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.12);
+  --text:#e8eaea;
+  --text2:#8a9292;
+  --text3:#4a5252;
+  --cyan:#00c8c8;
+  --cyan2:#00e8e8;
+  --cyan-dim:rgba(0,200,200,0.08);
+  --cyan-glow:rgba(0,200,200,0.15);
+  --green:#00b86e;
+  --green-dim:rgba(0,184,110,0.12);
+  --yellow:#d4a017;
+  --yellow-dim:rgba(212,160,23,0.12);
+  --red:#e03c3c;
+  --red-dim:rgba(224,60,60,0.12);
+  --condensed:'Barlow Condensed',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --body:'Barlow',sans-serif;
+}
+
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.6;overflow-x:hidden;}
+
+/* NOISE OVERLAY */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:0.5;}
+
+/* GRID LINES */
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,200,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,200,0.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(13,15,15,0.92);backdrop-filter:blur(12px);}
+.nav-logo{font-family:var(--condensed);font-size:22px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);}
+.nav-logo span{color:var(--cyan);}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);text-decoration:none;transition:color 0.15s;}
+.nav-links a:hover{color:var(--text2);}
+.nav-cta{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;padding:9px 20px;border:1px solid var(--cyan);color:var(--cyan);background:transparent;cursor:pointer;transition:all 0.15s;text-decoration:none;}
+.nav-cta:hover{background:var(--cyan-dim);}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 48px 80px;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(0,200,200,0.04) 0%,transparent 70%);pointer-events:none;}
+.hero-content{position:relative;z-index:1;max-width:760px;}
+.hero-tag{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.16em;color:var(--cyan);margin-bottom:24px;display:flex;align-items:center;gap:10px;}
+.hero-tag::before{content:'';width:24px;height:1px;background:var(--cyan);}
+.hero-h1{font-family:var(--condensed);font-size:clamp(64px,9vw,120px);font-weight:800;line-height:0.9;letter-spacing:-0.01em;text-transform:uppercase;margin-bottom:28px;}
+.hero-h1 em{font-style:normal;color:var(--cyan);}
+.hero-h1 .line2{color:var(--text2);font-weight:300;}
+.hero-sub{font-size:17px;color:var(--text2);line-height:1.7;max-width:560px;margin-bottom:40px;font-weight:300;}
+.hero-sub strong{color:var(--text);font-weight:500;}
+.hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.btn-primary{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:0.1em;padding:14px 32px;background:var(--cyan);color:#000;border:none;cursor:pointer;font-weight:500;transition:all 0.15s;}
+.btn-primary:hover{background:var(--cyan2);}
+.btn-ghost{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:0.1em;padding:13px 32px;background:transparent;color:var(--text2);border:1px solid var(--border2);cursor:pointer;transition:all 0.15s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.25);color:var(--text);}
+.hero-stat{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:48px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.hero-stat span{display:flex;align-items:center;gap:8px;}
+.hero-stat span::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);}
+
+/* HERO PANEL */
+.hero-panel{position:absolute;right:48px;top:50%;transform:translateY(-50%);width:420px;background:var(--bg2);border:1px solid var(--border2);padding:0;overflow:hidden;}
+.panel-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.panel-dots{display:flex;gap:6px;}
+.panel-dot{width:8px;height:8px;border-radius:50%;}
+.panel-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);}
+.panel-body{padding:16px;}
+.job-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);margin-bottom:6px;background:var(--bg3);transition:border-color 0.2s;}
+.job-row:hover{border-color:var(--border2);}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.status-green{background:var(--green);box-shadow:0 0 6px var(--green);}
+.status-yellow{background:var(--yellow);box-shadow:0 0 6px var(--yellow);}
+.status-red{background:var(--red);box-shadow:0 0 6px var(--red);}
+.job-info{flex:1;min-width:0;}
+.job-num{font-family:var(--mono);font-size:11px;color:var(--text2);}
+.job-name{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.job-flag{font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:2px;flex-shrink:0;}
+.flag-green{background:var(--green-dim);color:var(--green);}
+.flag-yellow{background:var(--yellow-dim);color:var(--yellow);}
+.flag-red{background:var(--red-dim);color:var(--red);}
+.panel-alert{background:rgba(224,60,60,0.06);border:1px solid rgba(224,60,60,0.2);padding:10px 12px;margin-top:8px;}
+.alert-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--red);margin-bottom:4px;}
+.alert-text{font-size:11px;color:var(--text2);line-height:1.5;}
+
+/* SECTION */
+section{position:relative;z-index:1;}
+.section-inner{max-width:1200px;margin:0 auto;padding:100px 48px;}
+.section-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.16em;color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-label::before{content:'';width:20px;height:1px;background:var(--cyan);}
+.section-title{font-family:var(--condensed);font-size:clamp(36px,5vw,64px);font-weight:700;text-transform:uppercase;line-height:0.95;letter-spacing:-0.01em;margin-bottom:20px;}
+.section-sub{font-size:16px;color:var(--text2);font-weight:300;max-width:600px;line-height:1.7;}
+
+/* PROBLEM */
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:60px;}
+.problem-card{background:var(--bg);padding:36px 32px;}
+.problem-num{font-family:var(--condensed);font-size:56px;font-weight:800;color:var(--red);opacity:0.3;line-height:1;margin-bottom:16px;}
+.problem-title{font-family:var(--condensed);font-size:20px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;}
+.problem-body{font-size:14px;color:var(--text2);line-height:1.7;font-weight:300;}
+
+/* HOW IT WORKS */
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:60px;}
+.how-steps{display:flex;flex-direction:column;gap:0;}
+.how-step{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--border);}
+.how-step:last-child{border-bottom:none;}
+.step-num{font-family:var(--mono);font-size:11px;color:var(--cyan);flex-shrink:0;padding-top:3px;width:24px;}
+.step-content{}
+.step-title{font-family:var(--condensed);font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+.step-body{font-size:14px;color:var(--text2);line-height:1.7;font-weight:300;}
+.how-visual{background:var(--bg2);border:1px solid var(--border2);padding:0;overflow:hidden;}
+.visual-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:8px;}
+.visual-title{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;}
+.visual-body{padding:20px;}
+.req-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;margin-bottom:6px;background:var(--bg3);border:1px solid var(--border);}
+.req-status{width:16px;height:16px;border-radius:50%;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:8px;}
+.req-confirmed{background:var(--green-dim);border:1px solid var(--green);color:var(--green);}
+.req-flagged{background:var(--red-dim);border:1px solid var(--red);color:var(--red);}
+.req-pending{background:var(--yellow-dim);border:1px solid var(--yellow);color:var(--yellow);}
+.req-label{font-size:11px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;font-size:9px;}
+.req-val{font-size:12px;color:var(--text);}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:60px;}
+.feature-card{background:var(--bg);padding:36px 32px;border-top:2px solid transparent;transition:border-color 0.2s;}
+.feature-card:hover{border-top-color:var(--cyan);}
+.feature-icon{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--cyan);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.feature-icon::before{content:'';width:12px;height:1px;background:var(--cyan);}
+.feature-title{font-family:var(--condensed);font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;}
+.feature-body{font-size:14px;color:var(--text2);line-height:1.7;font-weight:300;}
+
+/* SIGNALS */
+.signals-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.signals-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.signal-list{display:flex;flex-direction:column;gap:12px;margin-top:32px;}
+.signal-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);}
+.signal-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.signal-live{background:var(--green);box-shadow:0 0 6px var(--green);}
+.signal-soon{background:var(--text3);}
+.signal-name{font-size:13px;color:var(--text2);}
+.signal-badge{margin-left:auto;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.06em;padding:2px 6px;}
+.badge-live{background:var(--green-dim);color:var(--green);}
+.badge-soon{background:var(--bg4);color:var(--text3);}
+
+/* DEPLOYMENT */
+.deploy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:60px;}
+.deploy-card{background:var(--bg);padding:40px 32px;position:relative;}
+.deploy-card.featured{background:var(--bg2);border:1px solid var(--cyan);}
+.deploy-tag{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;padding:3px 8px;border-radius:2px;display:inline-block;margin-bottom:20px;}
+.tag-cloud{background:var(--cyan-dim);color:var(--cyan);}
+.tag-self{background:var(--green-dim);color:var(--green);}
+.tag-air{background:rgba(180,120,255,0.1);color:#b47aff;}
+.deploy-price{font-family:var(--condensed);font-size:52px;font-weight:800;line-height:1;margin-bottom:4px;}
+.deploy-period{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:24px;}
+.deploy-title{font-family:var(--condensed);font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;}
+.deploy-sub{font-size:13px;color:var(--text2);margin-bottom:24px;font-weight:300;line-height:1.6;}
+.deploy-features{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.deploy-features li{font-size:13px;color:var(--text2);display:flex;align-items:flex-start;gap:8px;font-weight:300;}
+.deploy-features li::before{content:'→';color:var(--cyan);font-family:var(--mono);flex-shrink:0;}
+.deploy-cta{display:block;width:100%;margin-top:28px;padding:12px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;text-align:center;cursor:pointer;transition:all 0.15s;background:transparent;border:1px solid var(--border2);color:var(--text2);}
+.deploy-cta:hover{border-color:var(--cyan);color:var(--cyan);}
+.deploy-card.featured .deploy-cta{background:var(--cyan);color:#000;border-color:var(--cyan);}
+.deploy-card.featured .deploy-cta:hover{background:var(--cyan2);}
+
+/* SECURITY */
+.security-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:60px;}
+.security-card{background:var(--bg);padding:28px 24px;}
+.security-icon{font-size:24px;margin-bottom:14px;}
+.security-title{font-family:var(--condensed);font-size:17px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;}
+.security-body{font-size:13px;color:var(--text2);line-height:1.6;font-weight:300;}
+
+/* CTA SECTION */
+.cta-section{background:var(--bg2);border-top:1px solid var(--border);}
+.cta-inner{max-width:1200px;margin:0 auto;padding:100px 48px;display:grid;grid-template-columns:1fr 420px;gap:80px;align-items:center;}
+.cta-title{font-family:var(--condensed);font-size:clamp(40px,5vw,72px);font-weight:800;text-transform:uppercase;line-height:0.95;letter-spacing:-0.01em;margin-bottom:20px;}
+.cta-title em{font-style:normal;color:var(--cyan);}
+.cta-sub{font-size:16px;color:var(--text2);font-weight:300;line-height:1.7;max-width:480px;}
+.cta-form{background:var(--bg);border:1px solid var(--border2);padding:32px;}
+.form-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);display:block;margin-bottom:6px;}
+.form-input{width:100%;background:var(--bg2);border:1px solid var(--border);padding:12px 14px;color:var(--text);font-family:var(--body);font-size:14px;outline:none;transition:border-color 0.15s;margin-bottom:12px;}
+.form-input:focus{border-color:var(--border2);}
+.form-select{width:100%;background:var(--bg2);border:1px solid var(--border);padding:12px 14px;color:var(--text2);font-family:var(--mono);font-size:12px;outline:none;margin-bottom:16px;appearance:none;}
+.form-select option{background:var(--bg2);}
+.form-submit{width:100%;padding:14px;background:var(--cyan);color:#000;border:none;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:0.1em;font-weight:500;cursor:pointer;transition:background 0.15s;}
+.form-submit:hover{background:var(--cyan2);}
+.form-msg{font-size:12px;text-align:center;margin-top:12px;min-height:18px;font-family:var(--mono);}
+.form-msg.success{color:var(--green);}
+.form-msg.error{color:var(--red);}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;}
+.footer-logo{font-family:var(--condensed);font-size:18px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;}
+.footer-logo span{color:var(--cyan);}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);text-decoration:none;transition:color 0.15s;}
+.footer-links a:hover{color:var(--text2);}
+.footer-copy{font-family:var(--mono);font-size:10px;color:var(--text3);}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:0;}
+
+/* ANIMATIONS */
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.hero-content{animation:fadeUp 0.8s ease both;}
+.hero-panel{animation:fadeUp 0.8s 0.2s ease both;}
+
+/* TICKER */
+.ticker{background:var(--black);border-bottom:1px solid var(--border);border-top:1px solid var(--border);padding:10px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:1;}
+.ticker-inner{display:inline-flex;animation:ticker 30s linear infinite;}
+.ticker-item{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text3);padding:0 40px;display:flex;align-items:center;gap:12px;}
+.ticker-item::before{content:'◆';color:var(--cyan);font-size:6px;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+@media(max-width:1100px){
+  .hero-panel{display:none;}
+  .how-grid,.signals-grid,.cta-inner{grid-template-columns:1fr;}
+  .problem-grid,.features-grid,.security-grid{grid-template-columns:1fr 1fr;}
+  .deploy-grid{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  nav{padding:0 20px;}
+  .hero,.section-inner,.cta-inner{padding-left:20px;padding-right:20px;}
+  .problem-grid,.features-grid,.security-grid,.deploy-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:20px;text-align:center;padding:32px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Line<span>Sentry</span></div>
+  <div class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="#deployment">Deployment</a>
+    <a href="#security">Security</a>
+  </div>
+  <a href="#waitlist" class="nav-cta">Request Access</a>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker" style="margin-top:64px;">
+  <div class="ticker-inner">
+    <span class="ticker-item">Drawing requirement verification</span>
+    <span class="ticker-item">Live job status board</span>
+    <span class="ticker-item">Signal cross-referencing</span>
+    <span class="ticker-item">Engineering order change detection</span>
+    <span class="ticker-item">Air-gapped deployment available</span>
+    <span class="ticker-item">Zero data leaves your facility</span>
+    <span class="ticker-item">Drawing requirement verification</span>
+    <span class="ticker-item">Live job status board</span>
+    <span class="ticker-item">Signal cross-referencing</span>
+    <span class="ticker-item">Engineering order change detection</span>
+    <span class="ticker-item">Air-gapped deployment available</span>
+    <span class="ticker-item">Zero data leaves your facility</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Manufacturing Operations Intelligence</div>
+    <h1 class="hero-h1">
+      Nothing<br>
+      <em>Ships</em><br>
+      <span class="line2">Wrong.</span>
+    </h1>
+    <p class="hero-sub">
+      Linesentry reads every drawing, verifies every requirement, and monitors every signal across all active jobs simultaneously. <strong>Missed specs, dropped vendor updates, and untracked engineering changes are caught before they reach the floor.</strong>
+    </p>
+    <div class="hero-actions">
+      <a href="#waitlist" class="btn-primary">Request Early Access</a>
+      <a href="#how" class="btn-ghost">See How It Works</a>
+    </div>
+    <div class="hero-stat">
+      <span>Cloud, self-hosted, or air-gapped</span>
+      <span>Zero proprietary data exposure</span>
+      <span>Works alongside your existing ERP</span>
+    </div>
+  </div>
+
+  <!-- LIVE JOB PANEL -->
+  <div class="hero-panel">
+    <div class="panel-bar">
+      <div class="panel-dots">
+        <div class="panel-dot" style="background:#e03c3c;"></div>
+        <div class="panel-dot" style="background:#d4a017;"></div>
+        <div class="panel-dot" style="background:#00b86e;"></div>
+      </div>
+      <div class="panel-title">Active Jobs — Line 2 · Shift A</div>
+    </div>
+    <div class="panel-body">
+      <div class="job-row">
+        <div class="status-dot status-red"></div>
+        <div class="job-info">
+          <div class="job-num">JOB-4471</div>
+          <div class="job-name">Hydraulic manifold block — Aerospace</div>
+        </div>
+        <div class="job-flag flag-red">Action</div>
+      </div>
+      <div class="job-row">
+        <div class="status-dot status-yellow"></div>
+        <div class="job-info">
+          <div class="job-num">JOB-4382</div>
+          <div class="job-name">Titanium bracket assembly — Defense</div>
+        </div>
+        <div class="job-flag flag-yellow">Review</div>
+      </div>
+      <div class="job-row">
+        <div class="status-dot status-green"></div>
+        <div class="job-info">
+          <div class="job-num">JOB-4419</div>
+          <div class="job-name">Stainless impeller — Medical</div>
+        </div>
+        <div class="job-flag flag-green">Clear</div>
+      </div>
+      <div class="job-row">
+        <div class="status-dot status-red"></div>
+        <div class="job-info">
+          <div class="job-num">JOB-4455</div>
+          <div class="job-name">Aluminum housing — Industrial</div>
+        </div>
+        <div class="job-flag flag-red">Action</div>
+      </div>
+      <div class="panel-alert">
+        <div class="alert-label">⚠ Flagged — JOB-4471</div>
+        <div class="alert-text">Drawing rev C released. Anodize spec changed MIL-A-8625 Type II → Type III. Vendor has rev B. Production not notified.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section>
+  <div class="section-inner">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">One missed note.<br>One line stoppage.</h2>
+    <p class="section-sub">The notes are always there. Buried in a title block, a revision triangle, a general notes section. The problem isn't the drawing. It's the process of reading it under pressure, every time, without a system.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-num">01</div>
+        <div class="problem-title">Missed Drawing Requirements</div>
+        <div class="problem-body">Material certifications, surface treatments, testing requirements, marking specs — buried in note blocks and read manually every time. One miss and a part comes back wrong.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">02</div>
+        <div class="problem-title">Dropped Signals</div>
+        <div class="problem-body">Vendor delays buried in email threads. Engineering changes posted in Teams. Production updates nobody actioned. The information exists. Nobody cross-referenced it against the job.</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-num">03</div>
+        <div class="problem-title">Engineering Order Blindspots</div>
+        <div class="problem-body">A drawing revision changes the spec mid-job. Purchasing already ordered to the old revision. The vendor has the old drawing. The CNC is programmed to the old tolerance. Nobody connected it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-inner">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Upload. Verify.<br>Monitor.</h2>
+    <p class="section-sub">Linesentry reads your drawings, builds a requirement checklist, and watches every signal source for changes that affect active jobs.</p>
+    <div class="how-grid">
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <div class="step-title">Upload the Drawing PDF</div>
+            <div class="step-body">Linesentry reads every note block, title block, revision triangle, and general notes section. Extracts every requirement — material specs, surface treatments, testing, marking, special processes — into a structured checklist.</div>
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <div class="step-title">Verify Against the Job</div>
+            <div class="step-body">Every extracted requirement is cross-referenced against the work order and BOM. Anything on the drawing that isn't reflected in the job documentation is flagged before the job hits the floor.</div>
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <div class="step-title">Monitor All Signal Sources</div>
+            <div class="step-body">Emails from vendors, Teams messages from production, engineering orders, sales updates — all ingested and cross-referenced against active jobs in real time. Status updates automatically.</div>
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <div class="step-title">Act on What Matters</div>
+            <div class="step-body">Open Linesentry every morning and see every active job — green, yellow, or red — with the exact actions needed today. Nothing buried. Nothing missed.</div>
+          </div>
+        </div>
+      </div>
+      <div class="how-visual">
+        <div class="visual-bar">
+          <div class="visual-title">JOB-4471 · Requirements Extraction</div>
+        </div>
+        <div class="visual-body">
+          <div class="req-item">
+            <div class="req-status req-flagged">✕</div>
+            <div>
+              <div class="req-label">Surface Treatment</div>
+              <div class="req-val">Anodize per MIL-A-8625 Type III — not in work order</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-status req-flagged">✕</div>
+            <div>
+              <div class="req-label">Material Certification</div>
+              <div class="req-val">AMS 2750 certification required — PO placed for standard 4140</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-status req-confirmed">✓</div>
+            <div>
+              <div class="req-label">Marking</div>
+              <div class="req-val">Engrave part number per MIL-STD-130 — confirmed in routing</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-status req-pending">?</div>
+            <div>
+              <div class="req-label">Testing</div>
+              <div class="req-val">Charpy impact test at -40°F — vendor not yet confirmed</div>
+            </div>
+          </div>
+          <div class="req-item">
+            <div class="req-status req-confirmed">✓</div>
+            <div>
+              <div class="req-label">Special Process</div>
+              <div class="req-val">Anneal before final machining — in process routing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-inner">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Built for planners.<br>Trusted by executives.</h2>
+    <p class="section-sub">Every feature exists to answer one question: is this job going to ship right, on time, without a surprise?</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">Drawing Parser</div>
+        <div class="feature-title">AI Requirement Extraction</div>
+        <div class="feature-body">Upload any PDF drawing and Linesentry extracts every requirement from every note block, title block, and revision section. Catches what gets missed under time pressure — every time.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">Live Board</div>
+        <div class="feature-title">Multi-Job Status Dashboard</div>
+        <div class="feature-body">Every active job on one screen. Green, yellow, red. Updated in real time as signals come in. A planner sees 20 jobs at once. An executive sees the whole floor.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">Signal Engine</div>
+        <div class="feature-title">Cross-Source Signal Verification</div>
+        <div class="feature-body">Emails, Teams messages, engineering orders, vendor updates — all ingested and cross-referenced against job baselines. One signal affects three jobs? All three get flagged simultaneously.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">Change Detection</div>
+        <div class="feature-title">Engineering Order Alerts</div>
+        <div class="feature-body">When a drawing revision or EO hits the system, every active job referencing that part number or drawing is automatically flagged. The change reaches everyone before it causes a problem.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">Verification Log</div>
+        <div class="feature-title">Requirement Confirmation Trail</div>
+        <div class="feature-body">Every confirmed requirement, every flagged gap, every resolved action — logged with timestamp and user. Full audit trail for quality reviews, customer disputes, and certification audits.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">Action Queue</div>
+        <div class="feature-title">Daily Planner View</div>
+        <div class="feature-body">Every morning, a clean list of what needs action across all active jobs. Not a report you run. A live queue that updates as signals come in throughout the shift.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SIGNAL SOURCES -->
+<section class="signals-section">
+  <div class="section-inner">
+    <div class="signals-grid">
+      <div>
+        <div class="section-label">Signal Sources</div>
+        <h2 class="section-title">Every source.<br>One board.</h2>
+        <p class="section-sub">Linesentry ingests signals from every tool your team already uses and cross-references them against active jobs automatically. No manual aggregation. No missed updates.</p>
+      </div>
+      <div>
+        <div class="signal-list">
+          <div class="signal-item"><div class="signal-dot signal-live"></div><div class="signal-name">Email (Gmail / Outlook)</div><div class="signal-badge badge-live">Live</div></div>
+          <div class="signal-item"><div class="signal-dot signal-live"></div><div class="signal-name">Drawing PDFs + Engineering Orders</div><div class="signal-badge badge-live">Live</div></div>
+          <div class="signal-item"><div class="signal-dot signal-live"></div><div class="signal-name">Work Orders + BOM Documents</div><div class="signal-badge badge-live">Live</div></div>
+          <div class="signal-item"><div class="signal-dot signal-soon"></div><div class="signal-name">Microsoft Teams</div><div class="signal-badge badge-soon">Soon</div></div>
+          <div class="signal-item"><div class="signal-dot signal-soon"></div><div class="signal-name">ERP / MRP Systems</div><div class="signal-badge badge-soon">Soon</div></div>
+          <div class="signal-item"><div class="signal-dot signal-soon"></div><div class="signal-name">Excel MRP Imports</div><div class="signal-badge badge-soon">Soon</div></div>
+          <div class="signal-item"><div class="signal-dot signal-soon"></div><div class="signal-name">PDM / PLM Systems</div><div class="signal-badge badge-soon">Soon</div></div>
+          <div class="signal-item"><div class="signal-dot signal-soon"></div><div class="signal-name">QuickBooks / Purchasing Systems</div><div class="signal-badge badge-soon">Soon</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DEPLOYMENT -->
+<section id="deployment">
+  <div class="section-inner">
+    <div class="section-label">Deployment</div>
+    <h2 class="section-title">Your data.<br>Your infrastructure.</h2>
+    <p class="section-sub">Choose how Linesentry runs. Cloud for speed, self-hosted for control, air-gapped for companies where proprietary drawings and specs never leave the building.</p>
+    <div class="deploy-grid">
+      <div class="deploy-card">
+        <div class="deploy-tag tag-cloud">Cloud</div>
+        <div class="deploy-price">$99</div>
+        <div class="deploy-period">/ month per site</div>
+        <div class="deploy-title">Cloud Hosted</div>
+        <div class="deploy-sub">Hosted on Linesentry infrastructure. Up to 5 users. Fastest way to get started.</div>
+        <ul class="deploy-features">
+          <li>Linesentry-managed hosting</li>
+          <li>Up to 5 planner seats</li>
+          <li>Unlimited active jobs</li>
+          <li>Email and drawing ingestion</li>
+          <li>Standard support</li>
+        </ul>
+        <a href="#waitlist" class="deploy-cta">Get Started</a>
+      </div>
+      <div class="deploy-card featured">
+        <div class="deploy-tag tag-self">Self-Hosted</div>
+        <div class="deploy-price">$299</div>
+        <div class="deploy-period">/ month per site + $500 setup</div>
+        <div class="deploy-title">Your Infrastructure</div>
+        <div class="deploy-sub">Docker deployment on your servers. Your data never leaves your network. Up to 20 users.</div>
+        <ul class="deploy-features">
+          <li>Runs on your own servers</li>
+          <li>Up to 20 planner seats</li>
+          <li>Unlimited active jobs</li>
+          <li>All signal integrations</li>
+          <li>Priority support + SLA</li>
+        </ul>
+        <a href="#waitlist" class="deploy-cta">Request Setup</a>
+      </div>
+      <div class="deploy-card">
+        <div class="deploy-tag tag-air">Air-Gapped</div>
+        <div class="deploy-price">$799</div>
+        <div class="deploy-period">/ month per site + $2,000 setup</div>
+        <div class="deploy-title">Fully Local</div>
+        <div class="deploy-sub">No internet required. Local LLM included. Built for defense, aerospace, and medical device manufacturers.</div>
+        <ul class="deploy-features">
+          <li>Zero external network calls</li>
+          <li>Local AI processing on-site</li>
+          <li>Unlimited users</li>
+          <li>Dedicated onboarding</li>
+          <li>Full SLA + audit support</li>
+        </ul>
+        <a href="#waitlist" class="deploy-cta">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECURITY -->
+<section id="security">
+  <div class="section-inner">
+    <div class="section-label">Security</div>
+    <h2 class="section-title">Proprietary drawings<br>stay proprietary.</h2>
+    <p class="section-sub">Manufacturing data is sensitive by nature. Linesentry was designed from the ground up to give you control over where your data lives and who can access it.</p>
+    <div class="security-grid">
+      <div class="security-card">
+        <div class="security-icon">🔒</div>
+        <div class="security-title">Local AI Option</div>
+        <div class="security-body">Air-gapped tier uses a local LLM running entirely on your hardware. Drawing content never leaves your facility. No external API calls required.</div>
+      </div>
+      <div class="security-card">
+        <div class="security-icon">🛡</div>
+        <div class="security-title">Row-Level Security</div>
+        <div class="security-body">Every data record is scoped to the authenticated user. No user can access another user's jobs, drawings, or signals — enforced at the database level.</div>
+      </div>
+      <div class="security-card">
+        <div class="security-icon">🔑</div>
+        <div class="security-title">JWT Authentication</div>
+        <div class="security-body">Every API call is verified against a signed JWT token. User identity is derived from the verified token — never from client-supplied parameters.</div>
+      </div>
+      <div class="security-card">
+        <div class="security-icon">📋</div>
+        <div class="security-title">Full Audit Trail</div>
+        <div class="security-body">Every action logged — who confirmed a requirement, when a signal was actioned, what changed and when. Complete traceability for quality and compliance reviews.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA / WAITLIST -->
+<section class="cta-section" id="waitlist">
+  <div class="cta-inner">
+    <div>
+      <div class="section-label">Early Access</div>
+      <h2 class="cta-title">Be first<br>on the <em>floor.</em></h2>
+      <p class="cta-sub">Linesentry is in early access. We're onboarding a limited number of manufacturing facilities to validate the product before general release. If your team is losing jobs to missed drawing requirements or dropped signals, we want to talk.</p>
+    </div>
+    <div class="cta-form">
+      <label class="form-label">Full Name</label>
+      <input type="text" id="form-name" class="form-input" placeholder="Your name">
+      <label class="form-label">Work Email</label>
+      <input type="email" id="form-email" class="form-input" placeholder="you@company.com">
+      <label class="form-label">Company</label>
+      <input type="text" id="form-company" class="form-input" placeholder="Company name">
+      <label class="form-label">Deployment Interest</label>
+      <select id="form-deploy" class="form-select">
+        <option value="">Select deployment type</option>
+        <option value="cloud">Cloud — $99/mo</option>
+        <option value="self-hosted">Self-Hosted — $299/mo</option>
+        <option value="air-gapped">Air-Gapped — $799/mo</option>
+        <option value="unsure">Not sure yet</option>
+      </select>
+      <button class="form-submit" onclick="submitForm()">Request Early Access →</button>
+      <div class="form-msg" id="form-msg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Line<span>Sentry</span></div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="mailto:hello@linesentry.app">Contact</a>
+  </div>
+  <div class="footer-copy">linesentry.app · © 2026</div>
+</footer>
+
+<script>
+async function submitForm() {
+  const name = document.getElementById('form-name').value.trim();
+  const email = document.getElementById('form-email').value.trim();
+  const company = document.getElementById('form-company').value.trim();
+  const deploy = document.getElementById('form-deploy').value;
+  const msg = document.getElementById('form-msg');
+  const btn = document.querySelector('.form-submit');
+
+  if (!name || !email || !email.includes('@')) {
+    msg.className = 'form-msg error';
+    msg.textContent = 'Please enter your name and a valid email.';
+    return;
+  }
+
+  btn.textContent = 'Submitting...';
+  btn.style.opacity = '0.7';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/.netlify/functions/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name, company, deploy }),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      msg.className = 'form-msg success';
+      msg.textContent = "You're on the list. We'll be in touch shortly.";
+      document.getElementById('form-name').value = '';
+      document.getElementById('form-email').value = '';
+      document.getElementById('form-company').value = '';
+      document.getElementById('form-deploy').value = '';
+    } else {
+      msg.className = 'form-msg error';
+      msg.textContent = data.error || 'Something went wrong. Email hello@linesentry.app';
+    }
+  } catch(e) {
+    msg.className = 'form-msg error';
+    msg.textContent = 'Something went wrong. Email hello@linesentry.app';
+  }
+
+  btn.textContent = 'Request Early Access →';
+  btn.style.opacity = '1';
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
