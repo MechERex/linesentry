@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Damien Ramos — Manufacturing Engineer &amp; Software Builder</title>
+<meta name="description" content="Damien Ramos — Manufacturing engineer turned full-stack developer. Building Linesentry, an AI-powered manufacturing operations intelligence platform.">
+<meta name="author" content="Damien Ramos">
+<meta property="og:title" content="Damien Ramos — Manufacturing Engineer & Software Builder">
+<meta property="og:description" content="Building Linesentry — AI-powered manufacturing operations intelligence for job shops and contract manufacturers.">
+<meta property="og:type" content="website">
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #12121a;
+    --bg3: #1a1a26;
+    --bg4: #22222e;
+    --border: #2a2a3a;
+    --border2: #3a3a4e;
+    --text: #e8e8ed;
+    --text2: #a0a0b0;
+    --text3: #6a6a7e;
+    --cyan: #00c8ff;
+    --cyan-dim: rgba(0, 200, 255, 0.08);
+    --cyan-glow: rgba(0, 200, 255, 0.15);
+    --green: #00a862;
+    --green-dim: rgba(0, 168, 98, 0.1);
+    --blue: #4a7dff;
+    --blue-dim: rgba(74, 125, 255, 0.08);
+    --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    --max-w: 1080px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--cyan); color: var(--bg); }
+
+  a { color: var(--cyan); text-decoration: none; transition: opacity 0.2s; }
+  a:hover { opacity: 0.8; }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .nav-inner {
+    max-width: var(--max-w); margin: 0 auto;
+    padding: 0 32px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav .nav-name {
+    font-family: var(--mono); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.04em; color: var(--text);
+  }
+  nav .nav-links { display: flex; gap: 28px; }
+  nav .nav-links a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text3); transition: color 0.2s;
+  }
+  nav .nav-links a:hover { color: var(--cyan); opacity: 1; }
+
+  /* ── Sections ── */
+  section { padding: 100px 32px; }
+  .container { max-width: var(--max-w); margin: 0 auto; }
+
+  .section-label {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 32px; font-weight: 700; line-height: 1.3;
+    margin-bottom: 20px; letter-spacing: -0.02em;
+  }
+  .section-sub {
+    font-size: 16px; color: var(--text2); line-height: 1.8;
+    max-width: 680px;
+  }
+
+  /* ── Hero ── */
+  #hero {
+    padding-top: 160px; padding-bottom: 120px;
+    border-bottom: 1px solid var(--border);
+  }
+  #hero .hero-eyebrow {
+    font-family: var(--mono); font-size: 12px; color: var(--cyan);
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  #hero .hero-eyebrow::before {
+    content: ''; display: block; width: 32px; height: 1px; background: var(--cyan);
+  }
+  #hero h1 {
+    font-size: clamp(40px, 6vw, 64px); font-weight: 800;
+    line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px;
+  }
+  #hero h1 span { color: var(--cyan); }
+  #hero .hero-sub {
+    font-size: 18px; color: var(--text2); line-height: 1.8;
+    max-width: 620px; margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 24px;
+    font-family: var(--mono); font-size: 12px; color: var(--text3);
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 8px; }
+  .hero-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+  .resume-btn {
+    display: inline-block; padding: 10px 24px;
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--bg); background: var(--cyan);
+    border: none; text-decoration: none; transition: opacity 0.2s;
+  }
+  .resume-btn:hover { opacity: 0.85; color: var(--bg); }
+
+  /* ── About ── */
+  #about { border-bottom: 1px solid var(--border); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 48px;
+  }
+  .about-text { font-size: 15px; color: var(--text2); line-height: 1.9; }
+  .about-text p { margin-bottom: 20px; }
+  .about-text strong { color: var(--text); font-weight: 600; }
+
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item {
+    padding: 20px 0; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-role { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .timeline-co { font-size: 13px; color: var(--text2); }
+  .timeline-date {
+    font-family: var(--mono); font-size: 11px; color: var(--text3);
+    white-space: nowrap; padding-top: 2px;
+  }
+
+  /* ── Project ── */
+  #project { border-bottom: 1px solid var(--border); }
+
+  .project-header { margin-bottom: 48px; }
+  .project-logo {
+    font-family: var(--mono); font-size: 28px; font-weight: 800;
+    letter-spacing: -0.02em; margin-bottom: 8px;
+  }
+  .project-logo span { color: var(--cyan); }
+
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    margin-top: 48px;
+  }
+  .feature-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    padding: 28px 24px; transition: border-color 0.3s;
+  }
+  .feature-card:hover { border-color: var(--border2); }
+  .feature-icon {
+    font-size: 20px; margin-bottom: 16px; display: block;
+  }
+  .feature-name {
+    font-size: 14px; font-weight: 600; margin-bottom: 8px;
+  }
+  .feature-desc {
+    font-size: 13px; color: var(--text3); line-height: 1.7;
+  }
+
+  /* ── Screenshots ── */
+  .screenshots { margin-top: 64px; }
+  .screenshots h3 {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text3); margin-bottom: 24px;
+  }
+  .screenshot-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .screenshot-item {
+    background: var(--bg2); border: 1px solid var(--border); overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .screenshot-item:hover { border-color: var(--cyan); }
+  .screenshot-item.wide { grid-column: 1 / -1; }
+  .screenshot-img {
+    width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block;
+    background: var(--bg3);
+  }
+  .screenshot-placeholder {
+    width: 100%; aspect-ratio: 16/10; display: flex;
+    align-items: center; justify-content: center;
+    background: var(--bg3); color: var(--text3);
+    font-family: var(--mono); font-size: 12px;
+    flex-direction: column; gap: 8px;
+  }
+  .screenshot-placeholder .ph-icon { font-size: 28px; opacity: 0.3; }
+  .screenshot-caption {
+    padding: 16px 20px; border-top: 1px solid var(--border);
+  }
+  .screenshot-caption .cap-title {
+    font-size: 13px; font-weight: 600; margin-bottom: 4px;
+  }
+  .screenshot-caption .cap-desc {
+    font-size: 12px; color: var(--text3); line-height: 1.6;
+  }
+
+  /* ── Tech ── */
+  .tech-stack { margin-top: 48px; }
+  .tech-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  .tech-item {
+    background: var(--bg2); border: 1px solid var(--border);
+    padding: 16px; text-align: center;
+  }
+  .tech-item .tech-name {
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .tech-item .tech-role {
+    font-size: 11px; color: var(--text3);
+  }
+
+  /* ── Impact ── */
+  #impact { border-bottom: 1px solid var(--border); }
+  .impact-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    margin-top: 48px;
+  }
+  .impact-card {
+    background: var(--bg2); border: 1px solid var(--border); padding: 32px 24px;
+  }
+  .impact-number {
+    font-family: var(--mono); font-size: 32px; font-weight: 800;
+    color: var(--cyan); margin-bottom: 8px;
+  }
+  .impact-label { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .impact-detail { font-size: 13px; color: var(--text3); line-height: 1.7; }
+
+  /* ── Value Prop ── */
+  .value-props {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px;
+  }
+  .value-prop {
+    padding: 28px; border-left: 2px solid var(--cyan);
+    background: var(--cyan-dim);
+  }
+  .value-prop h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .value-prop p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+  /* ── Contact ── */
+  #contact { padding-bottom: 120px; }
+  .contact-grid {
+    display: flex; flex-wrap: wrap; gap: 32px; margin-top: 32px;
+  }
+  .contact-item {
+    background: var(--bg2); border: 1px solid var(--border);
+    padding: 20px 28px; display: flex; align-items: center; gap: 16px;
+    transition: border-color 0.3s;
+  }
+  .contact-item:hover { border-color: var(--cyan); }
+  .contact-icon { font-size: 18px; }
+  .contact-label {
+    font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text3); margin-bottom: 2px;
+  }
+  .contact-value { font-size: 14px; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 32px;
+    text-align: center; font-family: var(--mono); font-size: 11px; color: var(--text3);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    section { padding: 64px 20px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .screenshot-grid { grid-template-columns: 1fr; }
+    .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    .impact-grid { grid-template-columns: 1fr; }
+    .value-props { grid-template-columns: 1fr; }
+    nav .nav-links { gap: 16px; }
+    nav .nav-links a { font-size: 10px; }
+    #hero h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-name">DAMIEN RAMOS</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#project">Linesentry</a>
+      <a href="#impact">Impact</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Mechanical Design · Manufacturing · Software</div>
+    <h1>I design it, build it,<br>and write the software<br><span>to run it.</span></h1>
+    <p class="hero-sub">
+      Mechanical design engineer with aerospace manufacturing experience — from 3D modeling in SolidWorks, AutoCAD, and NX to GD&amp;T interpretation to rigging calculations to SOP development to process optimization. Now building Linesentry, an AI-powered platform that gives job shops real-time visibility into every requirement, every process step, and every signal that affects production.
+    </p>
+    <div style="margin-bottom:32px;">
+      <a href="Damien_Ramos_Resume.pdf" download class="resume-btn">Download Resume (PDF)</a>
+    </div>
+    <div class="hero-meta">
+      <span><span class="dot"></span>B.S. Mechanical Engineering — Cal State LA</span>
+      <span>Long Beach, CA</span>
+      <span>AI-augmented builder</span>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">Background</div>
+    <div class="section-title">Design. Manufacture. Automate.</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I work across three disciplines that rarely overlap in one person. I design assemblies and components in SolidWorks and AutoCAD. I've built rigging calculation sheets, written SOPs, run time studies, and managed vendor relationships in aerospace manufacturing. And I write production software — full-stack, from database to deployment.
+        </p>
+        <p>
+          <strong>That combination is where I create the most value.</strong> I understand what an engineer draws, what the shop floor needs to build it, and how to write the software that connects the two. Linesentry exists because I've lived on every side of that handoff.
+        </p>
+        <p>
+          I designed and built the entire platform solo: the frontend, the serverless backend, the database architecture, the AI integrations, the OAuth flows, and the deployment infrastructure. Every feature comes from real pain points across mechanical design, manufacturing engineering, and project coordination.
+        </p>
+        <p>
+          Manufacturing is where I started — it's not where I stop. Linesentry is the first product I've had time to build since entering the workforce, but the instinct to identify broken workflows and build tools to fix them applies everywhere. Give me a domain, a problem, and access to the right tools — I'll build the solution.
+        </p>
+      </div>
+      <div>
+        <div style="margin-bottom:24px;border:1px solid var(--border);overflow:hidden;">
+          <img src="screenshots/IMG_1421.jpeg" alt="Damien Ramos and daughter at graduation" style="width:100%;display:block;object-fit:cover;max-height:400px;">
+          <div style="padding:12px 16px;background:var(--bg2);border-top:1px solid var(--border);">
+            <div style="font-size:12px;color:var(--text3);font-style:italic;">My daughter and I at my graduation ceremony, 2022. Go Eagles.</div>
+          </div>
+        </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div>
+            <div class="timeline-role">Founder / Solo Developer</div>
+            <div class="timeline-co">Linesentry</div>
+          </div>
+          <div class="timeline-date">2026 → Present</div>
+        </div>
+        <div class="timeline-item">
+          <div>
+            <div class="timeline-role">Project Engineer</div>
+            <div class="timeline-co">Coast Machinery Movers</div>
+          </div>
+          <div class="timeline-date">2025 → 2026</div>
+        </div>
+        <div class="timeline-item">
+          <div>
+            <div class="timeline-role">Manufacturing Engineer</div>
+            <div class="timeline-co">Advanced Ground Systems Engineering</div>
+          </div>
+          <div class="timeline-date">2023 → 2025</div>
+        </div>
+        <div class="timeline-item">
+          <div>
+            <div class="timeline-role">Rigging Engineer</div>
+            <div class="timeline-co">Bragg Companies</div>
+          </div>
+          <div class="timeline-date">2022 → 2023</div>
+        </div>
+        <div class="timeline-item">
+          <div>
+            <div class="timeline-role">Student Engineer</div>
+            <div class="timeline-co">City of Los Angeles — Dept. of Public Works</div>
+          </div>
+          <div class="timeline-date">2019 → 2022</div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Project: Linesentry -->
+<section id="project">
+  <div class="container">
+    <div class="project-header">
+      <div class="section-label">Flagship Project</div>
+      <div class="project-logo">line<span>sentry</span></div>
+      <div class="section-sub">
+        Manufacturing operations intelligence platform. Upload engineering drawings — AI extracts every requirement. Build your BOM, generate process sequences, auto-assign requirements as gates, backwards-schedule from your due date, and scan your email for job-relevant signals. All in one place.
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="feature-icon">◈</span>
+        <div class="feature-name">AI Requirement Extraction</div>
+        <div class="feature-desc">Upload engineering PDFs — Claude reads every material spec, surface treatment, testing callout, tolerance, and compliance requirement. Deduplicates on re-parse.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⬡</span>
+        <div class="feature-name">BOM Structure Builder</div>
+        <div class="feature-desc">Hierarchical assembly → sub-assembly → parts tree. AI can also extract BOM structure from uploaded documents. Drag-and-drop reordering.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">▦</span>
+        <div class="feature-name">AI Process Generation</div>
+        <div class="feature-desc">AI generates manufacturing sequences per BOM node based on the part description, material, and requirements. Manual override always available.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⊘</span>
+        <div class="feature-name">Gate-Based Auto-Assignment</div>
+        <div class="feature-desc">AI assigns each requirement to the process step that cannot proceed without it. "Which step is blocked if this requirement isn't met?"</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">◐</span>
+        <div class="feature-name">Backwards Scheduling</div>
+        <div class="feature-desc">Set a due date — AI works backwards through every process step across every BOM node to calculate start and end dates for the entire job.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <div class="feature-name">Signal Intelligence</div>
+        <div class="feature-desc">Connect Gmail, Outlook, Teams, OneNote. AI scans for messages relevant to active jobs and auto-creates signals linked to the right job, node, and step.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">◉</span>
+        <div class="feature-name">Status Rollup</div>
+        <div class="feature-desc">Green / yellow / red status computed from the ground up: requirement confirmation → process step → BOM node → job. One glance tells you where you stand.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⬢</span>
+        <div class="feature-name">Process Map</div>
+        <div class="feature-desc">Interactive SVG tree diagram showing parts flowing up into sub-assemblies and assemblies. Color-coded status, collapsible nodes, pan navigation.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⊞</span>
+        <div class="feature-name">Air-Gapped Ready</div>
+        <div class="feature-desc">Same codebase runs fully local for aerospace and defense. Files stay on-premise, AI runs via Ollama. ITAR/EAR compliant by architecture.</div>
+      </div>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="screenshots">
+      <h3>Platform Screenshots</h3>
+      <div class="screenshot-grid">
+
+        <div class="screenshot-item wide">
+          <img src="screenshots/LineSentry_UI_Portfolio.png" alt="Portfolio Overview" class="screenshot-img">
+          <div class="screenshot-caption">
+            <div class="cap-title">Portfolio Overview</div>
+            <div class="cap-desc">Gantt-style timeline across all jobs with an attention queue highlighting which jobs need action. Macro visibility for production planners managing multiple programs.</div>
+          </div>
+        </div>
+
+        <div class="screenshot-item">
+          <img src="screenshots/LineSentry_UI_Reqs_001.png" alt="AI Requirement Extraction" class="screenshot-img">
+          <div class="screenshot-caption">
+            <div class="cap-title">AI Requirement Extraction</div>
+            <div class="cap-desc">41 requirements extracted from a single engineering PDF — material specs, surface treatments, testing callouts, tolerances, compliance, and marking. Each can be confirmed, flagged, or assigned to a process step.</div>
+          </div>
+        </div>
+
+        <div class="screenshot-item">
+          <img src="screenshots/LineSentry_UI_ProcessMap.png" alt="Process Map" class="screenshot-img">
+          <div class="screenshot-caption">
+            <div class="cap-title">Process Map</div>
+            <div class="cap-desc">Interactive SVG tree showing each BOM node's manufacturing sequence with step numbers and scheduled dates. Collapsible nodes, color-coded status, pan navigation.</div>
+          </div>
+        </div>
+
+        <div class="screenshot-item">
+          <img src="screenshots/LineSentry_UI_BOM.png" alt="BOM Structure" class="screenshot-img">
+          <div class="screenshot-caption">
+            <div class="cap-title">BOM Structure &amp; Sequence Builder</div>
+            <div class="cap-desc">Hierarchical assembly tree with drag-and-drop reordering. AI-generated 20-step manufacturing sequence with backwards-scheduled dates and outside process tracking.</div>
+          </div>
+        </div>
+
+        <div class="screenshot-item">
+          <img src="screenshots/LineSentry_UI_SignalFeed.png" alt="Signal Feed" class="screenshot-img">
+          <div class="screenshot-caption">
+            <div class="cap-title">Signal Feed</div>
+            <div class="cap-desc">AI-scanned emails from Gmail automatically matched to the right job. Material updates, delivery confirmations, production status — surfaced without the planner searching their inbox.</div>
+          </div>
+        </div>
+
+        <div class="screenshot-item wide">
+          <img src="screenshots/LineSentry_UI_sc_001.png" alt="Manufacturing Sequence" class="screenshot-img">
+          <div class="screenshot-caption">
+            <div class="cap-title">Manufacturing Sequence &amp; Scheduling</div>
+            <div class="cap-desc">20-step PCB manufacturing sequence with AI-generated process steps, backwards-scheduled dates from the due date, and outside process tracking. Each step can gate on specific requirements.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="tech-stack">
+      <h3 style="font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:24px;">Built With</h3>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-name">Vanilla JS</div>
+          <div class="tech-role">Frontend — zero frameworks</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Netlify</div>
+          <div class="tech-role">Serverless functions + CDN</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Supabase</div>
+          <div class="tech-role">Postgres + Auth + Storage</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Claude API</div>
+          <div class="tech-role">AI extraction + analysis</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Google OAuth</div>
+          <div class="tech-role">Gmail integration</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Microsoft Graph</div>
+          <div class="tech-role">Outlook / Teams / OneNote</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">Stripe</div>
+          <div class="tech-role">Subscription billing</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-name">AES-256-GCM</div>
+          <div class="tech-role">Token encryption at rest</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Impact -->
+<section id="impact">
+  <div class="container">
+    <div class="section-label">What I Bring</div>
+    <div class="section-title">The engineer who builds his own tools.</div>
+    <div class="section-sub">
+      Most engineers identify problems. Some propose solutions. I identify, design, build, and ship — then iterate based on real feedback. That mindset doesn't stay in one lane.
+    </div>
+
+    <div class="impact-grid">
+      <div class="impact-card">
+        <div class="impact-number" style="font-size:24px;">See it. Build it.</div>
+        <div class="impact-label">Problem → Product Thinking</div>
+        <div class="impact-detail">I watched planners lose hours tracking requirements across emails and spreadsheets. Instead of accepting that as normal, I built an AI-powered platform to eliminate it. I approach every problem the same way — understand it deeply, then build the fix.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-number" style="font-size:24px;">AI-Native</div>
+        <div class="impact-label">Building with AI, Not Just Using It</div>
+        <div class="impact-detail">I use AI as an engineering tool — the same way I use SolidWorks or a CNC machine. I architect the system, define the requirements, direct the implementation, and validate the output. The result is a production SaaS platform built by an engineer who knows the domain cold.</div>
+      </div>
+      <div class="impact-card">
+        <div class="impact-number" style="font-size:24px;">Ship Fast</div>
+        <div class="impact-label">Bias Toward Action</div>
+        <div class="impact-detail">Full-stack SaaS platform — frontend, backend, database, AI integration, OAuth, payments, deployment — designed and built solo. I don't wait for someone else to build what I need. I learn the tool and get it done.</div>
+      </div>
+    </div>
+
+    <div class="value-props">
+      <div class="value-prop">
+        <h4>I Reduce Dependency</h4>
+        <p>Need a process automated? A tool built? A workflow digitized? I don't submit a ticket and wait — I scope it, build it, and have it running. One person doing the work of a cross-functional team means faster turnaround and fewer meetings.</p>
+      </div>
+      <div class="value-prop">
+        <h4>I Connect Departments</h4>
+        <p>I speak engineering, manufacturing, and software fluently. When the shop floor has a problem that IT doesn't understand, or when engineering needs data that operations can't surface — I bridge that gap with working solutions, not slide decks.</p>
+      </div>
+      <div class="value-prop">
+        <h4>I Think in Systems</h4>
+        <p>Status rollup logic that flows from requirement confirmation through process steps to BOM nodes to the job level — that's systems thinking applied to manufacturing. I see how the pieces connect and build accordingly, whether it's a production line or a database schema.</p>
+      </div>
+      <div class="value-prop">
+        <h4>I Multiply AI</h4>
+        <p>I don't just use AI — I integrate it into real workflows. PDF extraction, intelligent scanning, gate-based reasoning, automated scheduling. The companies that win next are the ones that embed AI into their operations, not just their chatbots. I know how to do that.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Get in Touch</div>
+    <div class="section-title">Let's talk.</div>
+    <div class="section-sub">
+      Whether you're a manufacturing shop looking for better tooling, an investor interested in the space, or someone who wants to build together — I'd like to hear from you.
+    </div>
+    <div class="contact-grid">
+      <a href="mailto:damien.ramos14@gmail.com" class="contact-item">
+        <span class="contact-icon">✉</span>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">damien.ramos14@gmail.com</div>
+        </div>
+      </a>
+      <a href="tel:+19093719430" class="contact-item">
+        <span class="contact-icon">☎</span>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-value">909-371-9430</div>
+        </div>
+      </a>
+      <a href="https://linesentry.app" target="_blank" class="contact-item">
+        <span class="contact-icon">◈</span>
+        <div>
+          <div class="contact-label">Product</div>
+          <div class="contact-value">linesentry.app</div>
+        </div>
+      </a>
+      <a href="https://github.com/MechERex" target="_blank" class="contact-item">
+        <span class="contact-icon">⟐</span>
+        <div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">MechERex</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    © 2026 Damien Ramos · Built with intent.
+  </div>
+</footer>
+
+<!-- Smooth scroll for nav links -->
+<script>
+  document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
